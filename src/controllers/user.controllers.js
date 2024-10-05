@@ -1,7 +1,7 @@
 const catchError = require('../utils/catchError');
 const User = require('../models/User');
 
-const { getAllServices, createServices } = require('../services/user.services');
+const { getAllServices, createServices, getOneServices, deleteServices, updateServices } = require('../services/user.services');
 
 const getAll = catchError(async (req, res) => {
   const results = await getAllServices();
@@ -15,14 +15,14 @@ const create = catchError(async (req, res) => {
 
 const getOne = catchError(async (req, res) => {
   const { id } = req.params;
-  const result = await User.findByPk(id);
+  const result = await getOneServices(id);
   if (!result) return res.sendStatus(404);
   return res.json(result);
 });
 
 const remove = catchError(async (req, res) => {
   const { id } = req.params;
-  const result = await User.destroy({ where: { id } });
+  const result = await deleteServices(id)
   if (!result) return res.sendStatus(404);
   return res.sendStatus(204);
 });
@@ -36,10 +36,7 @@ const update = catchError(async (req, res) => {
     delete req.body[field]
   })
 
-  const result = await User.update(
-    req.body,
-    { where: { id }, returning: true }
-  );
+  const result = await updateServices(req.body, id)
   if (result[0] === 0) return res.sendStatus(404);
   return res.json(result[1][0]);
 });

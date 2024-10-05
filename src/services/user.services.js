@@ -8,17 +8,20 @@ const createServices = async (user) => {
   return User.create(user)
 }
 
-const getOneServices = async () => {
-  return
+const getOneServices = async (id) => {
+  return User.findByPk(id)
+}
+const deleteServices = async (id) => {
+  return User.destroy({ where: { id } });
 }
 
-const updateServices = async () => {
-  return
+const updateServices = async (user, id) => {
+  return User.update(
+    user,
+    { where: { id }, returning: true }
+  );
 }
 
-const deleteServices = async () => {
-  return
-}
 
 
 module.exports = {
