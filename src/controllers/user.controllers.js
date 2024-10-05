@@ -27,6 +27,17 @@ const remove = catchError(async (req, res) => {
 
 const update = catchError(async (req, res) => {
   const { id } = req.params;
+
+  const fieldToDelete = ['password', 'email', 'isVerified']
+
+  fieldToDelete.forEach(field => {
+    delete req.body[field]
+  })
+
+  delete req.body.password
+  delete req.body.email
+  delete req.body.isVerifed
+
   const result = await User.update(
     req.body,
     { where: { id }, returning: true }
