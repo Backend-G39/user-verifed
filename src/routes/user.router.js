@@ -1,11 +1,16 @@
-const { getAll, create, getOne, remove, update } = require('../controllers/user.controllers');
+const { getAll, create, getOne, remove, update, login } = require('../controllers/user.controllers');
 const express = require('express');
+const hashPassword = require('../middlewares/hashPassword.middlewares');
+const loginMiddelwares = require('../middlewares/login.middlewares');
 
 const routerUser = express.Router();
 
 routerUser.route('/')
   .get(getAll)
-  .post(create);
+  .post(hashPassword, create);
+
+routerUser.route('/login')
+  .post(loginMiddelwares, login)
 
 routerUser.route('/:id')
   .get(getOne)
