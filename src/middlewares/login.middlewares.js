@@ -11,6 +11,9 @@ async function loginMiddelwares(req, res, next) {
 
   if (!isValid) return res.status(401).json({ message: 'Credentials invalid' })
 
+
+  if (user.isVerified === 'false') return res.status(401).json({ message: 'isVerified:false' })
+
   req.userlogged = user
 
   next()
