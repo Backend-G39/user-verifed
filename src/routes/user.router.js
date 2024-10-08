@@ -2,19 +2,21 @@ const { getAll, create, getOne, remove, update, login } = require('../controller
 const express = require('express');
 const hashPassword = require('../middlewares/hashPassword.middlewares');
 const loginMiddelwares = require('../middlewares/login.middlewares');
+const sessionJWT = require('../middlewares/sessionJWT.middlewares');
+const { verifyJWT } = require('../utils/verifyJwt');
 
 const routerUser = express.Router();
 
 routerUser.route('/')
-  .get(getAll)
+  .get(verifyJWT, getAll)
   .post(hashPassword, create);
 
 routerUser.route('/login')
-  .post(loginMiddelwares, login)
+  .post(loginMiddelwares, sessionJWT, login)
 
 routerUser.route('/:id')
-  .get(getOne)
-  .delete(remove)
-  .put(update);
+  .get(verifyJWT, getOne)
+  .delete(verifyJWT, remove)
+  .put(verifyJWT, update);
 
 module.exports = routerUser;

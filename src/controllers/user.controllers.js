@@ -12,7 +12,7 @@ const create = catchError(async (req, res) => {
   return res.status(201).json(result);
 });
 
-const getOne = catchError(async (req, res) => {
+const getOne = catchError(async (req, res, next) => {
   const { id } = req.params;
   const result = await getOneServices(id);
   if (!result) return res.sendStatus(404);
@@ -40,12 +40,11 @@ const update = catchError(async (req, res) => {
   return res.json(result[1][0]);
 });
 
+
 const login = catchError(async (req, res) => {
-
   const user = req.userlogged
-
-  return res.json({ user })
-
+  const token = req.token
+  return res.json({ user, token })
 })
 
 module.exports = {
