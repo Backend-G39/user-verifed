@@ -12,7 +12,6 @@ const create = catchError(async (req, res, next) => {
   req.result = result
   next()
 
-
 });
 
 const getOne = catchError(async (req, res, next) => {
